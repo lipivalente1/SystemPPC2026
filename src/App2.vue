@@ -1,9 +1,8 @@
 <script setup lang="ts">
     import Login from './Telas/Login.vue'
+    import TelaInicial from './Telas/components/TelaInicial.vue'
 </script>
 
 <template>
-    <div class='div-main'>
-        <Login/>
-    </div>
+        <TelaInicial/>
 </template>
