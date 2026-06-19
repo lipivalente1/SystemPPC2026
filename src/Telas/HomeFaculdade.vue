@@ -1,8 +1,11 @@
 <script setup lang="ts">
+    import ListCardPPC from './components/ListCardPPC.vue';
+
     const props = defineProps({
         title1 : String,
         title2 : String
     })
+    
 </script>
 
 <template>
@@ -11,31 +14,26 @@
         <h3>{{ title2 }}</h3>
 
         <button>Criar novo PPC</button>
-        <div class="div-container-list">
-
-        </div>
+        <ListCardPPC title="PPC's Criados"></ListCardPPC>
     </div>
 </template>
 
 
-<style>
+<style scoped>
     .div-container{
-        min-height: 100vh;
-        background-color: aqua;
+        background-color: #FFB32F;
         display:flex;
+        min-height: 100vh;
+        min-width: 100vw;
         flex-direction: column;
         align-items: center;
         font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    }
-    .div-container-list{
-        background-color: bisque;
-        margin-left: 10%;
-        margin-right: 10%;
     }
 
     h1{
         margin-top: 15px;
         font-size: 30px;
+        font-weight: 900;
     }
 
     h3{
