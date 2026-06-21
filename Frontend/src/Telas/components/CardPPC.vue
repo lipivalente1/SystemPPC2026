@@ -1,25 +1,45 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
+    
+
+const router = useRouter()
+
+const props = defineProps({
+    nome : String,
+    data : String
+})
+
+const formatDate = (dateString) => {
+  const date = new Date(dateString)
+
+  const day = String(date.getDate()).padStart(2, '0')
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const year = date.getFullYear()
+
+  return `${day}/${month}/${year}`
+}
+
+function openPpc() {
+    router.push('/ppcfaculdade')
+}
+
 </script>
 
 <template>
-    <div class="div-card-container">
+    <div @click="openPpc" class="div-card-container">
         <div class="div-info">
-            <div>
-                <label>Curso: </label>
-                <label>Engenharia da Computação</label>
+            <div class="div-data">
+                <div style="font-weight: 600;">Curso:</div>
+                <div>{{ nome }}</div>
             </div>
-            <div>
-                <label>N° do processo: </label>
-                <label>A47544DF47855AF</label>
-            </div>
-            <div>
-                <label>Criado em: :</label>
-                <label>19/06/2026</label>
+            <div class="div-data">
+                <div style="font-weight: 600;" >Criado em:</div>
+                <div>{{formatDate(data)}}</div>
             </div>
         </div>
         <div>
             <div class="div-status">
-                <label>Aprovado</label>
+                <div>Aprovado</div>
             </div>
         </div>
     </div>  
@@ -57,5 +77,11 @@
         justify-content: center;
         align-items: center;   
         border-radius: 20px; 
+    }
+
+    .div-data{
+        display: flex;
+        margin-top: 10px;
+        gap:8px;
     }
 </style>

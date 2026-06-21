@@ -16,7 +16,7 @@
 
 const salvarPpc = async () => {
   try {
-    await api.post('/ppc', {
+    await api.post('/ppcs', {
       nome: nome.value,
       ch: ch.value,
       n_semestres: n_semestres.value,
@@ -41,8 +41,6 @@ const salvarPpc = async () => {
     console.log(error)
     alert('Erro ao salvar PPC')
   }
-
-  
 }
 
   function retornaTelaInicial() {

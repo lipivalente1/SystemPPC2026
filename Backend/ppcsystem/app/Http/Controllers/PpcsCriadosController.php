@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Ppc;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\PppcsCriados;
 
-class PpcController extends Controller
+class PpcsCriadosController extends Controller
 {
-    ///
+    //
     // LISTAR TODOS
     public function index()
     {
-        return response()->json(Ppc::all());
+        return response()->json(PppcsCriados::all());
     }
 
     // CRIAR
     public function store(Request $request)
     {
-        $ppc = Ppc::create($request->all());
+        $ppc = PppcsCriados::create($request->all());
 
         return response()->json($ppc, 201);
     }
@@ -25,7 +26,7 @@ class PpcController extends Controller
     // MOSTRAR UM
     public function show($id)
     {
-        $ppc = Ppc::findOrFail($id);
+        $ppc = PppcsCriados::findOrFail($id);
 
         return response()->json($ppc);
     }
@@ -33,7 +34,7 @@ class PpcController extends Controller
     // ATUALIZAR
     public function update(Request $request, $id)
     {
-        $ppc = Ppc::findOrFail($id);
+        $ppc = PppcsCriados::findOrFail($id);
         $ppc->update($request->all());
 
         return response()->json($ppc);
@@ -42,7 +43,7 @@ class PpcController extends Controller
     // DELETAR
     public function destroy($id)
     {
-        $ppc = Ppc::findOrFail($id);
+        $ppc = PppcsCriados::findOrFail($id);
         $ppc->delete();
 
         return response()->json(['message' => 'Deletado com sucesso']);

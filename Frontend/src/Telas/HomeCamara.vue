@@ -1,26 +1,7 @@
 <script setup lang="ts">
     import ListCardPPC from './components/ListCardPPC.vue';
-    import CadastroPPC from './CadastroPPC.vue';
-    import { RouterLink, RouterView } from 'vue-router'
     import { useRouter } from 'vue-router'
-    import api from '@/services/api.ts';
-    import {ref, onMounted} from 'vue'
     
-    const ppcs = ref([])
-
-    const getPpcs = async () => {
-    try {
-        const response = await api.get('/ppcs')
-        ppcs.value = response.data
-        console.log(response.data)
-    } catch (error) {
-            console.error('Erro ao buscar PPC:', error)
-        }
-    }
-
-    onMounted(() => {
-        getPpcs()
-    })
 
     const router = useRouter()
     
@@ -30,11 +11,6 @@
         title2 : String
     })
 
-    function novoCadastro() {
-    router.push('/CadastroPPC')
-
-  
-}
 </script>
 
 <template>
@@ -42,8 +18,7 @@
         <h1>{{title1}}</h1>
         <h3>{{ title2 }}</h3>
 
-        <button @click="novoCadastro">Criar novo PPC</button>
-        <ListCardPPC title="PPC's criados" :ppcs="ppcs"></ListCardPPC>
+        <ListCardPPC title="PPC's recebidos"></ListCardPPC>
         
     </div>
 </template>

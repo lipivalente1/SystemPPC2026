@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ppcs;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\Ppc;
 
 class PpcsController extends Controller
 {
-    //
+    ///
     // LISTAR TODOS
     public function index()
     {

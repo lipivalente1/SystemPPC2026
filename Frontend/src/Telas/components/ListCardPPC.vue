@@ -1,8 +1,14 @@
 <script setup lang="ts">
     import CardPPC from './CardPPC.vue';
+    import {ref, onMounted} from 'vue';
+    import api from '@/services/api.ts';
+
+
+    
 
    const props = defineProps({
-    title:String
+    title:String,
+    ppcs:[]
    })
 </script>
 
@@ -11,8 +17,15 @@
                 <div class="div-title-list">
                     {{ title }}
                 </div>
-                <div class="div-container-list">
-                    <CardPPC></CardPPC>                 
+                <div >
+                    <ul class="div-container-list">
+                        <CardPPC
+                            v-for="ppc in ppcs"
+                            :key="ppc.id"
+                            :nome="ppc.nome"
+                            :data="ppc.created_at"
+                        />
+                        </ul>                 
                 </div>   
     </div>
     <img src="../../assets/logo.png">
@@ -24,7 +37,7 @@
         flex-direction: column;
         justify-content: center;
         width: 60vw;
-        gap: 20px;
+        gap: 30px;
         height: auto;
         align-items: center;
         border-radius: 20px;
@@ -39,14 +52,14 @@
         position: absolute;
         top:-15px;
         background-color: #FFB32F;
-        width: 200px;
+        width: 300px;
         font-size: 30px;
     }
 
     .div-container-list{
         display: flex;
         flex-direction: column;
-        gap: 20px;
+        gap: 30px;
         justify-content: center;
         width: auto;
         overflow-y: auto; 
