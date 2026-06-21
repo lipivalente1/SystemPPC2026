@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PpcsCriados extends Model
+class ProcessosTecCamara extends Model
 {
-    protected $table = 'ppcs_criados';
+    protected $table = 'processos_tec_camara';
     public $timestamps = false;
 
+
     protected $fillable = [
-        'faculdade_id',
-        'tecnico_id',
+        'content',
         'ppc_id'
     ];
 }
