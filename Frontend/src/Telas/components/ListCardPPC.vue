@@ -3,9 +3,6 @@
     import {ref, onMounted} from 'vue';
     import api from '@/services/api.ts';
 
-
-    
-
    const props = defineProps({
     title:String,
     ppcs:[]

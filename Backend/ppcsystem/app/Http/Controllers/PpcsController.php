@@ -9,9 +9,19 @@ class PpcsController extends Controller
 {
     ///
     // LISTAR TODOS
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(Ppcs::all());
+        $query = Ppcs::query();
+
+        if ($request->filled('faculdade_id')) {
+            $query->where('faculdade_id', $request->faculdade_id);
+        }
+
+        if ($request->filled('tecnico_id')) {
+            $query->where('tecnico_id', $request->tecnico_id);
+        }
+
+        return response()->json($query->get());
     }
 
     // CRIAR

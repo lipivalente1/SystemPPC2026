@@ -3,14 +3,17 @@
     import CadastroPPC from './CadastroPPC.vue';
     import { RouterLink, RouterView } from 'vue-router'
     import { useRouter } from 'vue-router'
+    import { useRoute } from 'vue-router'
     import api from '@/services/api.ts';
     import {ref, onMounted} from 'vue'
     
+    const router = useRouter()
+    const route = useRoute()
     const ppcs = ref([])
 
-    const getPpcs = async () => {
+    const getPpcsCriados = async () => {
     try {
-        const response = await api.get('/ppcs')
+        const response = await api.get(`/ppcs?faculdade_id=${route.params.id}`)
         ppcs.value = response.data
         console.log(response.data)
     } catch (error) {
@@ -19,11 +22,8 @@
     }
 
     onMounted(() => {
-        getPpcs()
+        getPpcsCriados()
     })
-
-    const router = useRouter()
-    
 
     const props = defineProps({
         title1 : String,
@@ -31,10 +31,16 @@
     })
 
     function novoCadastro() {
-    router.push('/CadastroPPC')
-
-  
-}
+        router.push(
+            {
+                path:'/CadastroPPC',
+                query:{
+                    id_faculdade: route.params.id,
+                    id_tecnico:1
+                }
+            }
+        )  
+    }
 </script>
 
 <template>

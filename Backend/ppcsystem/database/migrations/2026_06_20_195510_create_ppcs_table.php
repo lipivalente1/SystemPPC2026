@@ -20,6 +20,8 @@ return new class extends Migration
             $table->text('impacto');
             $table->text('disciplinas');
             $table->integer('status');
+            $table->integer('faculdade_id');
+            $table->foreignId('tecnico_id');;
             $table->timestamps();
         });
     }

@@ -9,9 +9,15 @@ class ProcessosTecCamaraController extends Controller
 {
     ///
     // LISTAR TODOS
-    public function index()
+      public function index(Request $request)
     {
-        return response()->json(ProcessosTecCamara::all());
+            $query = ProcessosTecCamara::query();
+
+        if ($request->filled('ppc_id')) {
+            $query->where('ppc_id', $request->ppc_id);
+        }
+
+        return response()->json($query->get());
     }
 
     // CRIAR

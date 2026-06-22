@@ -9,10 +9,17 @@ class ProcessosFaculTecController extends Controller
 {
     ///
     // LISTAR TODOS
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(ProcessosFaculTec::all());
+            $query = ProcessosFaculTec::query();
+
+        if ($request->filled('ppc_id')) {
+            $query->where('ppc_id', $request->ppc_id);
+        }
+
+        return response()->json($query->get());
     }
+
 
     // CRIAR
     public function store(Request $request)

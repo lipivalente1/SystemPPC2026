@@ -3,9 +3,11 @@
     import { ref } from 'vue'
     import api from '@/services/api.ts'
     import { useRouter } from 'vue-router'
+    import { useRoute } from 'vue-router'
+
+    const route = useRoute()
 
     const router = useRouter()
-
     const nome = ref('')
     const ch = ref(0)
     const n_semestres = ref(0)
@@ -16,6 +18,8 @@
 
 const salvarPpc = async () => {
   try {
+        console.log(`${Number(route.query.id_faculdade)} e ${Number(route.query.id_tecnico)}`)
+
     await api.post('/ppcs', {
       nome: nome.value,
       ch: ch.value,
@@ -23,8 +27,11 @@ const salvarPpc = async () => {
       justificativa: justificativa.value,
       impacto: impacto.value,
       disciplinas: disciplinas.value,
-      status: status.value
+      status: status.value,
+      faculdade_id: Number(route.query.id_faculdade),
+      tecnico_id: Number(route.query.id_tecnico)
     })
+
 
     alert('PPC criado com sucesso!')
 
@@ -44,7 +51,7 @@ const salvarPpc = async () => {
 }
 
   function retornaTelaInicial() {
-    router.push('/')
+    router.push(`/home-faculdade/${route.query.id_faculdade}`)
 }
 </script>
 

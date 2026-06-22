@@ -20,7 +20,7 @@ const formatDate = (dateString) => {
 }
 
 function openPpc() {
-    router.push('/ppcfaculdade')
+    router.push('/processo-ppc-faculdade')
 }
 
 </script>

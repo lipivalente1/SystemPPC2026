@@ -17,6 +17,8 @@ class Ppcs extends Model
         'justificativa',
         'impacto',
         'disciplinas',
-        'status'
+        'status',
+        'faculdade_id',
+        'tecnico_id'
     ];
 }

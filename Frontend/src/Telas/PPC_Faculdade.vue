@@ -15,7 +15,7 @@ const router = useRouter()
             <BalaoChat></BalaoChat>            
         </div>
         <div style="display: flex; gap: 20px">
-            <button @click="router.push('/')">Cancelar</button>
+            <button @click="router.push('/home-faculdade/1')">Cancelar</button>
             <button>Editar PPC</button>
         </div>
     </div>
