@@ -37,8 +37,6 @@
             }
         }
             
-        
-
     if(update){
         getPpc()       
     }
@@ -122,7 +120,7 @@
 </script>
 
 <template>
-    <div>
+    <div class="container">
         <div style="display: flex; justify-content: center;">
             <h1>Criar Novo PPC</h1>
         </div>
@@ -133,11 +131,11 @@
             </div>
             <div>
                 <label>Carga horária </label>
-                <input  v-model.number="ch" type="text">
+                <input class="input-number"  v-model.number="ch" type="text">
             </div>
             <div>
                 <label>Quantidade de Semestres </label>
-                <input v-model.number="n_semestres" type="text">
+                <input class="input-number" v-model.number="n_semestres" type="text">
             </div>     
             <div>
                 <label>Justificativa de criação de curso </label>
@@ -151,7 +149,7 @@
                 <DisciplinasSemestreComp></DisciplinasSemestreComp>
             </div>
         </div>
-        <div>
+        <div style="display: flex; gap:30px;">
             <button @click="retornaTelaInicial">Cancelar</button>
             <button v-if="update" @click="atualizarPpc">Atualizar</button>
             <button v-else="update" @click="salvarPpc">Enviar</button>
@@ -159,12 +157,67 @@
     </div>
 </template> 
 
-<style>
+<style scoped>
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    height: auto;
+    background-color: #FFB32F;
+
+}
 .container-forms{
-    background-color: aqua;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #FF8C00;
     width: 70vw;
     height: auto;
+    gap: 10px;
     border-radius: 30px;
     padding-left: 30px;
+    padding-top: 20px;
+    padding-right: 30px;
+    padding-bottom: 20px;
+}
+
+h1{
+    font-size: 20px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+input{
+    width: 60%;
+    height: 25px;
+    font-size: 15px;
+}
+
+.input-number{
+    max-width: 50px;
+
+}
+
+label{
+    font-size: 20px;
+}
+
+textarea{
+    width: 95%;
+    min-height: 150px;
+    border-radius: 20px;
+    padding: 15px;
+    margin-top: 5px;
+    font-size: 15px;
+}
+
+button{
+    border-radius: 10px;
+    width: 100px;
+    height: 30px;
+    margin-top: 20px;
+    font-size: 15px;
 }
 </style>
