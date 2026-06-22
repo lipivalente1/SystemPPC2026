@@ -1,8 +1,22 @@
 <script setup lang="ts">
 import BalaoChat from './components/BalaoChat.vue';
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
-const router = useRouter()
+const router = useRouter();
+const route = useRoute();
+
+function updateCadastro() {
+        router.push(
+            {
+                path:'/CadastroPPC',
+                query:{
+                    update: route.query.update,
+                    ppc_id: route.query.ppc_id,
+                    faculdade_id: route.query.faculdade_id
+                }
+            }
+        )  
+    }
 
 </script>
 
@@ -15,8 +29,8 @@ const router = useRouter()
             <BalaoChat></BalaoChat>            
         </div>
         <div style="display: flex; gap: 20px">
-            <button @click="router.push('/home-faculdade/1')">Cancelar</button>
-            <button>Editar PPC</button>
+            <button @click="router.push(`/home-faculdade/${route.query.faculdade_id}`)">Cancelar</button>
+            <button @click="updateCadastro">Editar PPC</button>
         </div>
     </div>
     

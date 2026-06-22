@@ -5,8 +5,7 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const props = defineProps({
-    nome : String,
-    data : String
+    ppc : Object
 })
 
 const formatDate = (dateString) => {
@@ -20,7 +19,14 @@ const formatDate = (dateString) => {
 }
 
 function openPpc() {
-    router.push('/processo-ppc-faculdade')
+    router.push({
+        path: '/processo-ppc-faculdade',
+        query:{ 
+            update: 'true',
+            ppc_id: props.ppc?.id,
+            faculdade_id: props.ppc?.faculdade_id
+        }
+    })
 }
 
 </script>
@@ -30,11 +36,11 @@ function openPpc() {
         <div class="div-info">
             <div class="div-data">
                 <div style="font-weight: 600;">Curso:</div>
-                <div>{{ nome }}</div>
+                <div>{{ ppc?.nome }}</div>
             </div>
             <div class="div-data">
                 <div style="font-weight: 600;" >Criado em:</div>
-                <div>{{formatDate(data)}}</div>
+                <div>{{formatDate(ppc?.created_at)}}</div>
             </div>
         </div>
         <div>

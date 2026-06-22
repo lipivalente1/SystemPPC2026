@@ -10,7 +10,6 @@ use App\Http\Controllers\ProcessosTecCamaraController;
 
 
 
-
 Route::get('/ppcs', [PpcsController::class, 'index']);
 Route::post('/ppcs', [PpcsController::class, 'store']);
 Route::get('/ppcs/{id}', [PpcsController::class, 'show']);

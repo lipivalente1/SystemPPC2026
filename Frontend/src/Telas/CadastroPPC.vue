@@ -6,8 +6,9 @@
     import { useRoute } from 'vue-router'
 
     const route = useRoute()
-
     const router = useRouter()
+    const update = route.query.update === 'true';
+
     const nome = ref('')
     const ch = ref(0)
     const n_semestres = ref(0)
@@ -16,42 +17,107 @@
     const disciplinas = ref('fisica')
     const status = ref(1)
 
-const salvarPpc = async () => {
-  try {
-        console.log(`${Number(route.query.id_faculdade)} e ${Number(route.query.id_tecnico)}`)
+    const ppc = ref()
 
-    await api.post('/ppcs', {
-      nome: nome.value,
-      ch: ch.value,
-      n_semestres: n_semestres.value,
-      justificativa: justificativa.value,
-      impacto: impacto.value,
-      disciplinas: disciplinas.value,
-      status: status.value,
-      faculdade_id: Number(route.query.id_faculdade),
-      tecnico_id: Number(route.query.id_tecnico)
-    })
+    const getPpc = async () => {
+        try{
+            const response = await api.get(`/ppcs/${route.query.ppc_id}`)
+            ppc.value = response.data
+            console.log(response.data)
 
+            nome.value = ppc.value.nome
+            ch.value = ppc.value.ch
+            n_semestres.value = ppc.value.n_semestres
+            justificativa.value = ppc.value.justificativa
+            impacto.value = ppc.value.impacto
+            disciplinas.value = ppc.value.disciplinas
+            status.value = ppc.value.status
+        }catch(error) {
+                console.error('Erro ao buscar PPC:', error)
+            }
+        }
+            
+        
 
-    alert('PPC criado com sucesso!')
+    if(update){
+        getPpc()       
+    }
 
-    // limpar campos
-    nome.value = ''
-    ch.value = 0
-    n_semestres.value = 0
-    justificativa.value = ''
-    impacto.value = ''
-    disciplinas.value = ''
-    status.value = 1
+    const salvarPpc = async () => {
+        try {
+            await api.post('/ppcs', {
+                nome: nome.value,
+                ch: ch.value,
+                n_semestres: n_semestres.value,
+                justificativa: justificativa.value,
+                impacto: impacto.value,
+                disciplinas: disciplinas.value,
+                status: status.value,
+                faculdade_id: Number(route.query.faculdade_id),
+                tecnico_id: Number(route.query.tecnico_id)
+        })
 
-  } catch (error) {
-    console.log(error)
-    alert('Erro ao salvar PPC')
-  }
-}
+        alert('PPC criado com sucesso!')
+
+        // limpar campos
+        nome.value = ''
+        ch.value = 0
+        n_semestres.value = 0
+        justificativa.value = ''
+        impacto.value = ''
+        disciplinas.value = ''
+        status.value = 1
+
+        }catch (error) {
+            console.log(error)
+            alert('Erro ao salvar PPC')
+        }
+    }    
+        const atualizarPpc = async () => {
+            try {
+                await api.put(`/ppcs/${Number(route.query.ppc_id)}`, 
+                {
+                    nome: nome.value,
+                    ch: ch.value,
+                    n_semestres: n_semestres.value,
+                    justificativa: justificativa.value,
+                    impacto: impacto.value,
+                    disciplinas: disciplinas.value,
+                    status: status.value,
+                    faculdade_id: Number(route.query.faculdade_id),
+                    tecnico_id: 1
+                })
+
+                alert('PPC atualizado com sucesso!')
+
+                // limpar campos
+                nome.value = ''
+                ch.value = 0
+                n_semestres.value = 0
+                justificativa.value = ''
+                impacto.value = ''
+                disciplinas.value = ''
+                status.value = 1
+            }catch (error) {
+                console.log(error.response?.data)
+                console.log(error.response?.status)
+                alert('Erro ao atualizar o PPC')
+        }
+    }
 
   function retornaTelaInicial() {
-    router.push(`/home-faculdade/${route.query.id_faculdade}`)
+    if(update){
+         router.push({
+        path: '/processo-ppc-faculdade',
+        query:{ 
+            update: 'true',
+            ppc_id: route.query.ppc_id,
+            faculdade_id: route.query.faculdade_id
+            }
+        })
+    }else{
+            router.push(`/home-faculdade/${route.query.faculdade_id}`)
+    }
 }
 </script>
 
@@ -87,7 +153,8 @@ const salvarPpc = async () => {
         </div>
         <div>
             <button @click="retornaTelaInicial">Cancelar</button>
-            <button @click="salvarPpc">Enviar</button>
+            <button v-if="update" @click="atualizarPpc">Atualizar</button>
+            <button v-else="update" @click="salvarPpc">Enviar</button>
         </div>
     </div>
 </template> 

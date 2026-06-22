@@ -19,8 +19,7 @@
                         <CardPPC
                             v-for="ppc in ppcs"
                             :key="ppc.id"
-                            :nome="ppc.nome"
-                            :data="ppc.created_at"
+                            :ppc="ppc"
                         />
                         </ul>                 
                 </div>   

@@ -13,7 +13,14 @@
 
     const getPpcsCriados = async () => {
     try {
-        const response = await api.get(`/ppcs?faculdade_id=${route.params.id}`)
+        var faculdade_id = -1
+        if(route.query.faculdade_id !== undefined ){
+            faculdade_id = Number(route.query.faculdade_id)
+        }else{
+            faculdade_id = Number(route.params.id)
+        }
+
+        const response = await api.get(`/ppcs?faculdade_id=${faculdade_id}`)
         ppcs.value = response.data
         console.log(response.data)
     } catch (error) {
@@ -35,8 +42,9 @@
             {
                 path:'/CadastroPPC',
                 query:{
-                    id_faculdade: route.params.id,
-                    id_tecnico:1
+                    update: 'false',
+                    faculdade_id: route.params.id,
+                    tecnico_id:1
                 }
             }
         )  
