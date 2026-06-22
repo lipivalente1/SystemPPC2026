@@ -5,8 +5,13 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const props = defineProps({
-    ppc : Object
+    ppc : Object,
+    user_id: Number
 })
+
+const isFaculdade = props.user_id == 0
+const isTecnico = props.user_id == 1
+const isCamara = props.user_id == 2
 
 const formatDate = (dateString) => {
   const date = new Date(dateString)
@@ -24,7 +29,9 @@ function openPpc() {
         query:{ 
             update: 'true',
             ppc_id: props.ppc?.id,
-            faculdade_id: props.ppc?.faculdade_id
+            faculdade_id: props.ppc?.faculdade_id,
+            tecnico_id: props.ppc?.tecnico_id,
+            user_id: props.user_id,
         }
     })
 }

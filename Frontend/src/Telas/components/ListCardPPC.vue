@@ -5,7 +5,8 @@
 
    const props = defineProps({
     title:String,
-    ppcs:[]
+    ppcs:[],
+    user_id:Number
    })
 </script>
 
@@ -20,6 +21,7 @@
                             v-for="ppc in ppcs"
                             :key="ppc.id"
                             :ppc="ppc"
+                            :user_id="user_id"
                         />
                         </ul>                 
                 </div>   

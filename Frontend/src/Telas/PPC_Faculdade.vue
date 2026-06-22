@@ -5,6 +5,10 @@ import { useRouter, useRoute } from 'vue-router'
 const router = useRouter();
 const route = useRoute();
 
+const isFaculdade = Number(route.query.user_id) == 0
+const isTecnico = Number(route.query.user_id) == 1
+const isCamara = Number(route.query.user_id) == 2
+
 function updateCadastro() {
         router.push(
             {
@@ -26,11 +30,22 @@ function updateCadastro() {
             <BalaoChat></BalaoChat>
             <BalaoChat></BalaoChat>
             <BalaoChat></BalaoChat>
-            <BalaoChat></BalaoChat>            
+            <BalaoChat></BalaoChat>
+            <div v-if="isTecnico">
+                <form>  
+                    <input>
+                    <button>Enviar</button>
+                </form>
+            </div>            
         </div>
         <div style="display: flex; gap: 20px">
-            <button @click="router.push(`/home-faculdade/${route.query.faculdade_id}`)">Cancelar</button>
-            <button @click="updateCadastro">Editar PPC</button>
+            <button v-if="isFaculdade" @click="router.push(`/home-faculdade/${route.query.faculdade_id}`)">Cancelar</button>
+            <button v-if="isTecnico" @click="router.push(`/home-tecnico/${route.query.tecnico_id}`)">Cancelar</button>
+            <button v-if="isFaculdade" @click="updateCadastro">Editar PPC</button>
+            <button v-if="isTecnico" @click="updateCadastro">Enviar PPC para a Câmara de Ensino</button>
+            <button v-if="isCamara" @click="router.push('/home-camara')">Cancelar</button>
+            <button v-if="isCamara" @click="router.push('/home-camara')">Reprovar</button>
+            <button v-if="isCamara" @click="router.push('/home-camara')">Aprovar</button>
         </div>
     </div>
     

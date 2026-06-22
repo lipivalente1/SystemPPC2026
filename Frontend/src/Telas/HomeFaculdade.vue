@@ -10,6 +10,7 @@
     const router = useRouter()
     const route = useRoute()
     const ppcs = ref([])
+    const user_id = 0 //faculdade
 
     const getPpcsCriados = async () => {
     try {
@@ -57,7 +58,7 @@
         <h3>{{ title2 }}</h3>
 
         <button @click="novoCadastro">Criar novo PPC</button>
-        <ListCardPPC title="PPC's criados" :ppcs="ppcs"></ListCardPPC>
+        <ListCardPPC title="PPC's criados" :ppcs="ppcs" :user_id="user_id"></ListCardPPC>
         
     </div>
 </template>
