@@ -141,6 +141,16 @@ function updateCadastro() {
 <template>
     <div class="div-container">
         <div class="div-container-baloes">
+            <div class="balao">
+                    <div class="div-title">{{ nomeFaculdade.nome }} enviou:</div>
+                    <div class="div-content">Proposta para análise.</div>
+                    <button class="button-exibir-proposta">Exibir proposta</button>
+            </div>
+            <div class="balao">
+                    <div>{{ nomeFaculdade.nome }} enviou:</div>
+                    <div>Proposta para análise.</div>
+                    <button>Exibir proposta</button>
+            </div>
             <div v-for="ppc in ppc_msgs" :key="ppc.id">
                 <div v-if="ppc.content === '23' && (isFaculdade)">
                     <div>
@@ -235,9 +245,10 @@ function updateCadastro() {
     .div-container-baloes{
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        align-items: center;
+        gap: 15px;
         background-color: #108bea55;
-        width: 50%;
+        width: 60%;
         height: auto;
         margin-top: 30px;
         margin-bottom: 30px;
@@ -255,5 +266,29 @@ function updateCadastro() {
         min-height: 100vh;
         height: auto;
         background-color: aqua;
+    }
+    
+    .balao{
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        width: 90%;
+        background-color: rgb(216, 154, 10);
+        border-radius: 20px;
+        padding: 10px;
+    }
+
+    .div-title{
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .div-content{
+        font-size: 15px;
+    }
+
+    .button-exibir-proposta{
+        width: 120px;
+        border-radius: 20px;
     }
 </style>

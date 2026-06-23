@@ -23,6 +23,7 @@
                             :ppc="ppc"
                             :user_id="user_id"
                         />
+                        <CardPPC></CardPPC>
                         </ul>                 
                 </div>   
     </div>
