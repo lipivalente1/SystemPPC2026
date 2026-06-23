@@ -1,14 +1,33 @@
 <script setup lang="ts">
     import ListCardPPC from './components/ListCardPPC.vue';
     import { useRouter } from 'vue-router'
+    import api from '@/services/api.ts';
+    import { useRoute } from 'vue-router'
+    import {ref, onMounted} from 'vue'
     
 
     const router = useRouter()
+    const route = useRoute()
+    const ppcs = ref([])
+    const user_id = 2 //camara
     
+    const getPpcsRecebidos = async () => {
+    try {
+        const response = await api.get(`/ppcs`)
+        ppcs.value = response.data
+        console.log(response.data)
+    } catch (error) {
+            console.error('Erro ao buscar PPC:', error)
+        }
+    }
 
     const props = defineProps({
         title1 : String,
         title2 : String
+    })
+
+    onMounted(() => {
+        getPpcsRecebidos()
     })
 
 </script>
@@ -18,7 +37,7 @@
         <h1>{{title1}}</h1>
         <h3>{{ title2 }}</h3>
 
-        <ListCardPPC title="PPC's recebidos"></ListCardPPC>
+        <ListCardPPC title="PPC's criados" :ppcs="ppcs" :user_id="user_id"></ListCardPPC>
         
     </div>
 </template>

@@ -16,12 +16,12 @@
     const impacto = ref('')
     const disciplinas = ref('fisica')
     const status = ref(1)
-
+    const ppc_id = Number(route.query.ppc_id);
     const ppc = ref()
 
-    const getPpc = async () => {
+const getPpc = async () => {
         try{
-            const response = await api.get(`/ppcs/${route.query.ppc_id}`)
+            const response = await api.get(`/ppcs/${ppc_id}`)
             ppc.value = response.data
             console.log(response.data)
 
@@ -41,9 +41,9 @@
         getPpc()       
     }
 
-    const salvarPpc = async () => {
+const salvarPpc = async () => {
         try {
-            await api.post('/ppcs', {
+           const response = await api.post('/ppcs', {
                 nome: nome.value,
                 ch: ch.value,
                 n_semestres: n_semestres.value,
@@ -56,6 +56,7 @@
         })
 
         alert('PPC criado com sucesso!')
+        enviarRespostaFaculdade(response.data.id)
 
         // limpar campos
         nome.value = ''
@@ -70,10 +71,13 @@
             console.log(error)
             alert('Erro ao salvar PPC')
         }
-    }    
-        const atualizarPpc = async () => {
+    } 
+    
+
+
+const atualizarPpc = async () => {
             try {
-                await api.put(`/ppcs/${Number(route.query.ppc_id)}`, 
+                await api.put(`/ppcs/${ppc_id}`, 
                 {
                     nome: nome.value,
                     ch: ch.value,
@@ -88,6 +92,8 @@
 
                 alert('PPC atualizado com sucesso!')
 
+                enviarRespostaFaculdade(ppc_id)
+
                 // limpar campos
                 nome.value = ''
                 ch.value = 0
@@ -101,16 +107,31 @@
                 console.log(error.response?.status)
                 alert('Erro ao atualizar o PPC')
         }
-    }
+}
 
-  function retornaTelaInicial() {
+const enviarRespostaFaculdade = async ( ppc_id : number) => {
+        try {
+            await api.post('/analise-ppcs', {
+                ppc_id: ppc_id,
+                content: '23'
+        })
+                alert('Resposta enviada')
+
+        }catch (error) {
+            console.error('Erro ao buscar PPC:', error)
+        }
+} 
+
+
+function retornaTelaInicial() {
     if(update){
          router.push({
         path: '/processo-ppc-faculdade',
         query:{ 
             update: 'true',
             ppc_id: route.query.ppc_id,
-            faculdade_id: route.query.faculdade_id
+            faculdade_id: route.query.faculdade_id,
+            user_id: route.query.user_id
             }
         })
     }else{

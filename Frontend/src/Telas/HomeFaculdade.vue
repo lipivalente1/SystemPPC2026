@@ -45,7 +45,8 @@
                 query:{
                     update: 'false',
                     faculdade_id: route.params.id,
-                    tecnico_id:1
+                    tecnico_id:1,
+                    user_id:user_id
                 }
             }
         )  

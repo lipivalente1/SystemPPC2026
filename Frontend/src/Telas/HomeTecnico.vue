@@ -9,6 +9,7 @@
     const route = useRoute()
     const ppcs = ref([])
     const user_id = 1 //tecnico
+    
     const getPpcsRecebidos = async () => {
     try {
         var tecnico_id = -1
