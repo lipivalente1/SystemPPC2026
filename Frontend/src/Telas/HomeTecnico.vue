@@ -36,10 +36,19 @@
         title2 : String
     })
 
+    function retornarAoPortalDeAcesso() {
+        router.push(
+            {
+                path:'/'
+            }
+        )  
+    }
 </script>
 
 <template>
     <div class="div-container">
+        <button class="button-retornar" @click="retornarAoPortalDeAcesso" >Portal de acesso</button>
+        
         <h1>{{title1}}</h1>
         <h3>{{ title2 }}</h3>
 
@@ -76,5 +85,12 @@
         height: 40px;
         font-size: 16px;
         margin-top: 30px;
+    }
+
+    .button-retornar{
+        position: absolute;
+        top : 50px;
+        left: 60px;
+        border-radius: 20px;
     }
 </style>

@@ -24,6 +24,7 @@
                             :user_id="user_id"
                         />
                         <CardPPC></CardPPC>
+                        <CardPPC></CardPPC>
                         </ul>                 
                 </div>   
     </div>

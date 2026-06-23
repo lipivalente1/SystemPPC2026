@@ -247,7 +247,7 @@ function updateCadastro() {
         flex-direction: column;
         align-items: center;
         gap: 15px;
-        background-color: #108bea55;
+        background-color: #FF8C00;
         width: 60%;
         height: auto;
         margin-top: 30px;
@@ -265,7 +265,7 @@ function updateCadastro() {
         width: auto;
         min-height: 100vh;
         height: auto;
-        background-color: aqua;
+        background-color: #FFB32F;
     }
     
     .balao{
@@ -273,7 +273,7 @@ function updateCadastro() {
         flex-direction: column;
         gap: 5px;
         width: 90%;
-        background-color: rgb(216, 154, 10);
+        background-color: rgb(255, 234, 212);
         border-radius: 20px;
         padding: 10px;
     }
