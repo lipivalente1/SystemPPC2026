@@ -41,3 +41,8 @@ DB_DATABASE=systemppc
 DB_USERNAME=root
 
 DB_PASSWORD=root
+
+
+# Tela inicial
+<img width="1381" height="677" alt="image" src="https://github.com/user-attachments/assets/9c2db7cf-8d09-4882-9ed8-15586c282694" />
+
