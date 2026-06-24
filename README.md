@@ -8,25 +8,25 @@
 
 • Composer 2.8.12
 
-COMANDO PARA INSTALAR PHP + COMPOSER (EXECUTAR COMO ADMIN):
+#### COMANDO PARA INSTALAR PHP + COMPOSER (EXECUTAR COMO ADMIN):
 
-Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://php.new/install/windows/8.5'))
+*Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://php.new/install/windows/8.5'))*
 
 ## EXECUTANDO O FRONTEND:
 
-• Na pasta do frontend, executar: npm install e npm run dev para instalar dependências e rodar o servidor. 
+• Na pasta do frontend, executar: *npm install* e *npm run dev* para instalar dependências e rodar o servidor. 
 
-OBS: o frontend acessa o banco na porta localhost:8000. Para alterar, mude no arquivo api.ts: src\services\api.ts
+**OBS**: o frontend acessa o banco na porta localhost:8000. Para alterar, mude no arquivo api.ts: **src\services\api.ts**
 
 ## EXECUTANDO O BACKEND:
 
 Dentro da pasta do backend executar: 
 
-composer install
+*composer install*
 
-composer run dev
+*composer run dev*
 
-php artisan migrate (inicializar banco de dados)
+*php artisan migrate (inicializar banco de dados)*
 
 ## CONFIGURAÇÃO DO BANCO DE DADOS
 
