@@ -25,12 +25,12 @@
         <h1>Portal de Acesso ao Sistema de PPC</h1>
         <div class="container-buttons">
             <h2>Faculdades</h2>
-            <button @click="telaFaculdade">Eng Comp</button>
-            <button @click="telaFaculdade2">Telecom</button>
+            <button @click="telaFaculdade">Engenharia da Computação</button>
+            <button @click="telaFaculdade2">Engenharia de Telecomunicações</button>
             <h2>Técnicos</h2>
-            <button @click="telaTecnico">Armandinha</button>
+            <button @click="telaTecnico">Filipe Valente da Silva</button>
             <h2>Câmara de Ensino</h2>
-            <button @click="telaCamara">Câmara</button>
+            <button @click="telaCamara">Câmara de Ensino</button>
         </div>
         
     </div>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
     import DisciplinasSemestreComp from './components/DisciplinasSemestreComp.vue';
-    import { ref } from 'vue'
+    import { ref, watch } from 'vue'
     import api from '@/services/api.ts'
     import { useRouter } from 'vue-router'
     import { useRoute } from 'vue-router'
@@ -19,6 +19,10 @@
     const ppc_id = Number(route.query.ppc_id);
     const ppc = ref()
 
+    const semestres = ref<any[]>([])
+
+    
+
 const getPpc = async () => {
         try{
             const response = await api.get(`/ppcs/${ppc_id}`)
@@ -32,6 +36,13 @@ const getPpc = async () => {
             impacto.value = ppc.value.impacto
             disciplinas.value = ppc.value.disciplinas
             status.value = ppc.value.status
+
+
+            
+            semestres.value = JSON.parse(disciplinas.value)
+                            console.log(semestres.value)
+
+            
         }catch(error) {
                 console.error('Erro ao buscar PPC:', error)
             }
@@ -49,7 +60,7 @@ const salvarPpc = async () => {
                 n_semestres: n_semestres.value,
                 justificativa: justificativa.value,
                 impacto: impacto.value,
-                disciplinas: disciplinas.value,
+                disciplinas: JSON.stringify(semestres.value),
                 status: status.value,
                 faculdade_id: Number(route.query.faculdade_id),
                 tecnico_id: Number(route.query.tecnico_id)
@@ -69,6 +80,8 @@ const salvarPpc = async () => {
 
         }catch (error) {
             console.log(error)
+            console.log(error.response?.data)
+                console.log(error.response?.status)
             alert('Erro ao salvar PPC')
         }
     } 
@@ -84,7 +97,7 @@ const atualizarPpc = async () => {
                     n_semestres: n_semestres.value,
                     justificativa: justificativa.value,
                     impacto: impacto.value,
-                    disciplinas: disciplinas.value,
+                    disciplinas: JSON.stringify(semestres.value),
                     status: status.value,
                     faculdade_id: Number(route.query.faculdade_id),
                     tecnico_id: 1
@@ -137,6 +150,38 @@ function retornaTelaInicial() {
             router.push(`/home-faculdade/${route.query.faculdade_id}`)
     }
 }
+
+const criarSemestres = () => {
+    semestres.value = Array.from(
+        { length: n_semestres.value },
+        (_, i) => ({
+            semestre: i + 1,
+            disciplinas: [
+                {
+                    nome: '',
+                    ch: ''
+                }
+            ]
+        })
+    )
+}
+
+watch(
+    n_semestres,
+    () => {
+        if(!update)
+            criarSemestres()
+    },
+    { immediate: true }
+)
+
+const novaDisciplina = (indiceSemestre: number) => {
+    semestres.value[indiceSemestre].disciplinas.push({
+        nome: '',
+        ch: ''
+    })
+}
+
 </script>
 
 <template>
@@ -166,10 +211,39 @@ function retornaTelaInicial() {
                 <textarea v-model="impacto"></textarea>
             </div>
             <div>
-                <DisciplinasSemestreComp></DisciplinasSemestreComp>
-            </div>
+            <div
+            v-for="(semestre, indiceSemestre) in semestres"
+            :key="semestre.semestre"
+            class="semestre-card"
+            >
+                <h2>Semestre {{ semestre.semestre }}</h2>
+
+                <div
+                    v-for="(disciplina, indiceDisciplina) in semestre.disciplinas"
+                    :key="indiceDisciplina"
+                >
+                <input
+                    v-model="disciplina.nome"
+                    placeholder="Nome da disciplina"
+                    text="{{ disciplina.nome }}"
+                /> 
+
+                <input
+                    type="number"
+                    v-model="disciplina.ch"
+                    placeholder="CH"
+                />
+                </div>
+
+                <button
+                    @click="novaDisciplina(indiceSemestre)"
+                >
+                    Nova disciplina
+                </button>
         </div>
-        <div style="display: flex; gap:30px;">
+    </div>
+        </div>
+        <div style="display: flex; gap:30px; margin-bottom: 30px;">
             <button @click="retornaTelaInicial">Cancelar</button>
             <button v-if="update" @click="atualizarPpc">Atualizar</button>
             <button v-else="update" @click="salvarPpc">Enviar</button>
@@ -235,9 +309,10 @@ textarea{
 
 button{
     border-radius: 10px;
-    width: 100px;
+    width: 130px;
     height: 30px;
-    margin-top: 20px;
+    margin-bottom: 30px;
+    margin-top: 5px;
     font-size: 15px;
 }
 </style>

@@ -156,8 +156,6 @@ const atualizarPpc = async ( novoStatus : number) => {
                 disabledButton.value = false;
             }
 
-                alert('PPC atualizado com sucesso!')
-
             }catch (error) {
                 console.log(error.response?.data)
                 console.log(error.response?.status)
