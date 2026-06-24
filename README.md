@@ -16,7 +16,7 @@
 
 • Na pasta do frontend, executar: *npm install* e *npm run dev* para instalar dependências e rodar o servidor. 
 
-**OBS**: o frontend acessa o banco na porta localhost:8000. Para alterar, mude no arquivo api.ts: **src\services\api.ts**
+**OBS**: o frontend acessa o banco na porta localhost:8000. Para alterar, mude no arquivo api.ts no caminho: **src\services\api.ts**
 
 ## EXECUTANDO O BACKEND:
 
