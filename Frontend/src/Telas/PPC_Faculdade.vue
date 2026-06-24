@@ -238,7 +238,7 @@ function updateCadastro() {
                 <div v-if="ppc.content === '24' && (isFaculdade)">
                     <div class="balao">
                         <div class="div-title">{{ nomeTecnico.nome }} enviou:</div>
-                        <div class="div-content">Proposta enviada para a aprovação da Camara de Ensino</div>
+                        <div class="div-content">Proposta enviada para a aprovação pela Câmara de Ensino</div>
                     </div>
                 </div>
                 <div v-if="isNaN(ppc.content) && (isTecnico)">
@@ -256,13 +256,13 @@ function updateCadastro() {
                 <div v-if="ppc.content === '24' && (isTecnico)">
                     <div class="balao">
                         <div  class="div-title">{{ nomeTecnico.nome }} enviou:</div>
-                        <div class="div-content">Proposta enviada para a aprovação da Camara de Ensino</div>
+                        <div class="div-content">Proposta enviada para a aprovação pela Câmara de Ensino</div>
                     </div>
                 </div>
                 <div v-if="ppc.content === '24' && (isCamara)">
                     <div  class="balao">
                         <div class="div-title">{{ nomeTecnico.nome }} enviou:</div>
-                        <div class="div-content">Proposta enviada para a aprovação da Camara de Ensino</div>
+                        <div class="div-content">Proposta enviada para aprovação pela Câmara de Ensino</div>
                         <button class="button-exibir-proposta">Exibir proposta</button>
                     </div>
                 </div>
@@ -305,7 +305,7 @@ function updateCadastro() {
             </div>
             <div style="width: 80%" v-if="isCamara && ppc_msgs.length <= 0"">
                     <div  class="balao">
-                        <div class="div-title">Camara de Ensino enviou:</div>
+                        <div class="div-title">Câmara de Ensino enviou:</div>
                         <div class="div-content">Aguardando envio da proposta pelo servidor..</div>
                     </div>
             </div> 

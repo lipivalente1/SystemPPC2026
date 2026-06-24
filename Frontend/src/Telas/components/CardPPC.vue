@@ -52,7 +52,9 @@ function openPpc() {
         </div>
         <div>
             <div class="div-status">
-                <div>Aprovado</div>
+                <div class="emAnalise" v-if="ppc.status == 0">Em análise</div>
+                <div class="aprovado" v-if="ppc.status == 1">Aprovado</div>
+                <div class="reprovado" v-if="ppc.status == 2">Reprovado</div>
             </div>
         </div>
     </div>  
@@ -82,14 +84,34 @@ function openPpc() {
         flex-direction: column;
     }
 
-    .div-status{
-        background-color: greenyellow;
+    .emAnalise{
+        background-color: rgb(210, 255, 47);
         width: 130px;
         height: 30px;
         display: flex;
         justify-content: center;
         align-items: center;   
         border-radius: 20px; 
+    }
+
+    .aprovado{
+        background-color: rgb(47, 255, 130);
+        width: 130px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;   
+        border-radius: 20px; 
+    }
+
+    .reprovado{
+        background-color: rgb(222, 17, 3);
+        width: 130px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;   
+        border-radius: 20px;
     }
 
     .div-data{
