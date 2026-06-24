@@ -18,7 +18,7 @@
                 <div >
                     <ul class="div-container-list">
                         <CardPPC
-                            v-for="ppc in ppcs"
+                            v-for="ppc in [...ppcs].reverse()"
                             :key="ppc.id"
                             :ppc="ppc"
                             :user_id="user_id"

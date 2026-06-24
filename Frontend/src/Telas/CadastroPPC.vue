@@ -15,7 +15,7 @@
     const justificativa = ref('')
     const impacto = ref('')
     const disciplinas = ref('fisica')
-    const status = ref(1)
+    const status = ref(0)
     const ppc_id = Number(route.query.ppc_id);
     const ppc = ref()
 
@@ -35,7 +35,7 @@ const getPpc = async () => {
         }catch(error) {
                 console.error('Erro ao buscar PPC:', error)
             }
-        }
+}
             
     if(update){
         getPpc()       

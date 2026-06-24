@@ -24,6 +24,15 @@ const respostaCamara = ref('')
 const nomeFaculdade = ref([])
 const nomeTecnico = ref([])
 
+const nome = ref('')
+const ch = ref(0)
+const n_semestres = ref(0)
+const justificativa = ref('')
+const impacto = ref('')
+const disciplinas = ref('fisica')
+const status = ref(1)
+const ppc = ref()
+
 const getNomeFaculdade = async () => {
     try {
         const response = await api.get(`/faculdades/${faculdade_id}`)
@@ -99,7 +108,62 @@ const enviarRespostaCamara = async () => {
         }catch (error) {
             console.log(error)
         }
-} 
+}
+
+const getPpc = async () => {
+        try{
+            const response = await api.get(`/ppcs/${ppc_id}`)
+            ppc.value = response.data
+            console.log(response.data)
+
+            nome.value = ppc.value.nome
+            ch.value = ppc.value.ch
+            n_semestres.value = ppc.value.n_semestres
+            justificativa.value = ppc.value.justificativa
+            impacto.value = ppc.value.impacto
+            disciplinas.value = ppc.value.disciplinas
+            status.value = ppc.value.status
+
+            if(status.value == 1 || status.value == 2){
+                disabledButton.value = true;
+            }else{
+                disabledButton.value = false;
+            }
+
+        }catch(error) {
+                console.error('Erro ao buscar PPC:', error)
+            }
+}
+
+const atualizarPpc = async ( novoStatus : number) => {
+            try {
+                await api.put(`/ppcs/${ppc_id}`, 
+                {
+                    nome: nome.value,
+                    ch: ch.value,
+                    n_semestres: n_semestres.value,
+                    justificativa: justificativa.value,
+                    impacto: impacto.value,
+                    disciplinas: disciplinas.value,
+                    status: novoStatus,
+                    faculdade_id: Number(route.query.faculdade_id),
+                    tecnico_id: 1
+                })
+                
+            if(novoStatus == 1 || novoStatus == 2){
+                disabledButton.value = true;
+            }else{
+                disabledButton.value = false;
+            }
+
+                alert('PPC atualizado com sucesso!')
+
+            }catch (error) {
+                console.log(error.response?.data)
+                console.log(error.response?.status)
+                alert('Erro ao atualizar o PPC')
+        }
+}
 
 onMounted(() => {
     if(isFaculdade || isTecnico){
@@ -110,6 +174,7 @@ onMounted(() => {
 
     getNomeFaculdade()
     getNomeTecnico()
+    getPpc()
 })
 
 function setRespostaTecnico( resposta : string){
@@ -125,7 +190,13 @@ function setRespostaCamara( resposta : string){
     respostaCamara.value = resposta.toString()
     enviarRespostaCamara()
     disabledButton.value = true
-    if(resposta === '25' || resposta === '26'){
+    if(resposta === '25'){
+        atualizarPpc(Number(1))
+        setRespostaTecnico(resposta)
+    }
+
+     if(resposta === '26'){
+        atualizarPpc(Number(2))
         setRespostaTecnico(resposta)
     }
 }
@@ -168,6 +239,18 @@ function updateCadastro() {
                     <div class="balao">
                         <div class="div-title">{{ nomeTecnico.nome }} enviou:</div>
                         <div class="div-content">Proposta enviada para a aprovação da Camara de Ensino</div>
+                    </div>
+                </div>
+                <div v-if="isNaN(ppc.content) && (isTecnico)">
+                    <div class="balao">
+                        <div class="div-title">{{ nomeTecnico.nome }} enviou:</div>
+                        <div class="div-content">{{ppc.content}}</div>
+                    </div>
+                </div>
+                <div v-if="isNaN(ppc.content) && (isFaculdade)">
+                    <div class="balao">
+                        <div class="div-title">{{ nomeTecnico.nome }} enviou:</div>
+                        <div class="div-content">{{ppc.content}}</div>
                     </div>
                 </div>
                 <div v-if="ppc.content === '24' && (isTecnico)">
@@ -220,24 +303,30 @@ function updateCadastro() {
                     </div>
                 </div>
             </div>
+            <div style="width: 80%" v-if="isCamara && ppc_msgs.length <= 0"">
+                    <div  class="balao">
+                        <div class="div-title">Camara de Ensino enviou:</div>
+                        <div class="div-content">Aguardando envio da proposta pelo servidor..</div>
+                    </div>
+            </div> 
             <div v-if="isTecnico">
                 <form style="display: flex; gap:20px; justify-content: center; align-items: center;" @submit.prevent="enviarRespostaTecnico">  
                     <textarea style="width: 700px; height: 100px; padding: 20px; border-radius: 20px;" v-model="respostaTecnico"></textarea>
-                    <button style="width: 120px; font-size: 20px; height: 40px;" type="submit">Enviar</button>
+                    <button :disabled="disabledButton" style="width: 120px; font-size: 20px; height: 40px;" type="submit">Enviar</button>
                 </form>
-            </div>            
+            </div>
+                       
         </div>
         <div style="display: flex; gap: 20px">
             <button style="width: 220px; font-size: 20px; height: 60px; border-radius: 20px;" v-if="isFaculdade" @click="router.push(`/home-faculdade/${route.query.faculdade_id}`)">Cancelar</button>
             <button style="width: 220px; font-size: 20px; height: 60px; border-radius: 20px;" v-if="isTecnico" @click="router.push(`/home-tecnico/${route.query.tecnico_id}`)">Cancelar</button>
-            <button style="width: 220px; font-size: 20px; height: 60px; border-radius: 20px;" v-if="isFaculdade" @click="updateCadastro">Editar PPC</button>
-            <button style="width: 220px; font-size: 20px; height: 60px; border-radius: 20px;" v-if="isTecnico" @click="setRespostaTecnico('24')">Enviar PPC para a Câmara de Ensino</button>
+            <button style="width: 220px; font-size: 20px; height: 60px; border-radius: 20px;" :disabled="disabledButton" v-if="isFaculdade" @click="updateCadastro">Editar PPC</button>
+            <button style="width: 220px; font-size: 20px; height: 60px; border-radius: 20px;" :disabled="disabledButton" v-if="isTecnico" @click="setRespostaTecnico('24')">Enviar PPC para a Câmara de Ensino</button>
             <button style="width: 220px; font-size: 20px; height: 60px; border-radius: 20px;" v-if="isCamara" @click="router.push('/home-camara')">Cancelar</button>
             <button style="width: 220px; font-size: 20px; height: 60px; border-radius: 20px;" :disabled="disabledButton" v-if="isCamara && ppc_msgs.length > 0" @click="setRespostaCamara('26')">Reprovar</button>
-            <button style="width: 220px; font-size: 20px; height: 60px; border-radius: 20px;" v-else disabled @click="setRespostaCamara('26')">Reprovar</button>
+            <button style="width: 220px; font-size: 20px; height: 60px; border-radius: 20px;" v-else-if="isCamara" disabled @click="setRespostaCamara('26')">Reprovar</button>
             <button style="width: 220px; font-size: 20px; height: 60px; border-radius: 20px;" :disabled="disabledButton" v-if="isCamara && ppc_msgs.length" @click="setRespostaCamara('25')">Aprovar</button>
-            <button style="width: 220px; font-size: 20px; height: 60px; border-radius: 20px;" v-else disabled @click="setRespostaCamara('26')">Aprovar</button>
-
+            <button style="width: 220px; font-size: 20px; height: 60px; border-radius: 20px;" v-else-if="isCamara" disabled @click="setRespostaCamara('26')">Aprovar</button>
         </div>
     </div>
     
