@@ -33,6 +33,8 @@ const disciplinas = ref('fisica')
 const status = ref(1)
 const ppc = ref()
 
+const mostrarModal  = ref(false)
+
 const getNomeFaculdade = async () => {
     try {
         const response = await api.get(`/faculdades/${faculdade_id}`)
@@ -223,14 +225,14 @@ function updateCadastro() {
                     <div class="balao">
                         <div class="div-title">{{ nomeFaculdade.nome }} enviou:</div>
                         <div class="div-content">Proposta para análise</div>
-                        <button class="button-exibir-proposta">Exibir proposta</button>
+                        <button @click="mostrarModal = !mostrarModal" class="button-exibir-proposta">Exibir proposta</button>
                     </div>
                 </div>
                 <div v-if="ppc.content === '23' && (isTecnico)">
                     <div class="balao">
                         <div class="div-title">{{ nomeFaculdade.nome }} enviou:</div>
                         <div class="div-content">Proposta para análise</div>
-                        <button class="button-exibir-proposta">Exibir proposta</button>
+                        <button @click="mostrarModal = !mostrarModal" class="button-exibir-proposta">Exibir proposta</button>
                     </div>
                 </div>
                 <div v-if="ppc.content === '24' && (isFaculdade)">
@@ -261,7 +263,7 @@ function updateCadastro() {
                     <div  class="balao">
                         <div class="div-title">{{ nomeTecnico.nome }} enviou:</div>
                         <div class="div-content">Proposta enviada para aprovação pela Câmara de Ensino</div>
-                        <button class="button-exibir-proposta">Exibir proposta</button>
+                        <button @click="mostrarModal = !mostrarModal" class="button-exibir-proposta">Exibir proposta</button>
                     </div>
                 </div>
                 <div v-if="ppc.content === '25' && (isTecnico)">
@@ -313,7 +315,7 @@ function updateCadastro() {
                     <button :disabled="disabledButton" style="width: 120px; font-size: 20px; height: 40px;" type="submit">Enviar</button>
                 </form>
             </div>
-                       
+
         </div>
         <div style="display: flex; gap: 20px">
             <button style="width: 220px; font-size: 20px; height: 60px; border-radius: 20px;" v-if="isFaculdade" @click="router.push(`/home-faculdade/${route.query.faculdade_id}`)">Cancelar</button>
@@ -325,6 +327,41 @@ function updateCadastro() {
             <button style="width: 220px; font-size: 20px; height: 60px; border-radius: 20px;" v-else-if="isCamara" disabled @click="setRespostaCamara('26')">Reprovar</button>
             <button style="width: 220px; font-size: 20px; height: 60px; border-radius: 20px;" :disabled="disabledButton" v-if="isCamara && ppc_msgs.length" @click="setRespostaCamara('25')">Aprovar</button>
             <button style="width: 220px; font-size: 20px; height: 60px; border-radius: 20px;" v-else-if="isCamara" disabled @click="setRespostaCamara('26')">Aprovar</button>
+        </div>
+
+        <div v-if="mostrarModal" class="modal-overlay" @click.self="mostrarModal = false">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+            <h2>Proposta do PPC</h2>
+            <button class="close" @click="mostrarModal = false">X</button>
+            </div>
+
+            <div class="modal-body">
+            
+            <p><strong>Nome:</strong> {{ nome }}</p>
+            <p><strong>Carga horária:</strong> {{ ch }}</p>
+            <p><strong>Semestres:</strong> {{ n_semestres }}</p>
+            <p><strong>Justificativa:</strong> {{ justificativa }}</p>
+            <p><strong>Impacto social:</strong> {{ impacto }}</p>
+
+            <hr />
+
+            <div v-for="(semestre, index) in JSON.parse(disciplinas)" :key="index">
+                    <h3>Semestre {{ semestre.semestre }}</h3>
+
+                <ul>
+                    <li v-for="(materia, i) in semestre.disciplinas" :key="i">
+                              {{ materia.nome }} - {{ materia.ch }}h
+                    </li>
+                </ul>
+            </div>
+
+            </div>
+
+        </div>
+
         </div>
     </div>
     
@@ -385,4 +422,44 @@ function updateCadastro() {
     button{
         width: 100px;
     }
+
+    .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-content {
+    background: white;
+    width: 70%;
+    max-height: 80vh;
+    overflow-y: auto;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.close {
+    background: red;
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+}
 </style>
