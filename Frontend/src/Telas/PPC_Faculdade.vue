@@ -16,6 +16,7 @@ const ppc_id = Number(route.query.ppc_id)
 const faculdade_id = Number(route.query.faculdade_id)
 const tecnico_id = Number(route.query.tecnico_id)
 
+const disabledButton = ref(false)
 
 const respostaTecnico = ref('')
 const respostaCamara = ref('')
@@ -48,6 +49,7 @@ const getProcessoTecnicoFaculdade = async () => {
         const response = await api.get(`/analise-ppcs?ppc_id=${ppc_id}`)
         ppc_msgs.value = response.data
         console.log(response.data)
+
     } catch (error) {
         console.error('Erro ao buscar processo:', error)
     }
@@ -71,7 +73,10 @@ const enviarRespostaTecnico = async () => {
         })
 
         respostaTecnico.value = ''
-        await getProcessoTecnicoFaculdade()
+
+        if(isTecnico || isFaculdade){
+            await getProcessoTecnicoFaculdade()
+        }
 
         }catch (error) {
             console.log(error)
@@ -86,7 +91,10 @@ const enviarRespostaCamara = async () => {
         })
 
         respostaCamara.value = ''
-        await getProcessoTecnicoCamara()
+
+        if(isCamara){
+            await getProcessoTecnicoCamara()
+        }
 
         }catch (error) {
             console.log(error)
@@ -116,7 +124,7 @@ function setRespostaTecnico( resposta : string){
 function setRespostaCamara( resposta : string){
     respostaCamara.value = resposta.toString()
     enviarRespostaCamara()
-
+    disabledButton.value = true
     if(resposta === '25' || resposta === '26'){
         setRespostaTecnico(resposta)
     }
@@ -141,107 +149,102 @@ function updateCadastro() {
 <template>
     <div class="div-container">
         <div class="div-container-baloes">
-            <div class="balao">
-                    <div class="div-title">{{ nomeFaculdade.nome }} enviou:</div>
-                    <div class="div-content">Proposta para análise.</div>
-                    <button class="button-exibir-proposta">Exibir proposta</button>
-            </div>
-            <div class="balao">
-                    <div>{{ nomeFaculdade.nome }} enviou:</div>
-                    <div>Proposta para análise.</div>
-                    <button>Exibir proposta</button>
-            </div>
-            <div v-for="ppc in ppc_msgs" :key="ppc.id">
+            <div style="width: 80%;" v-for="ppc in ppc_msgs" :key="ppc.id">
                 <div v-if="ppc.content === '23' && (isFaculdade)">
-                    <div>
-                        <div>{{ nomeFaculdade.nome }} enviou:</div>
-                        <div>Proposta para análise.</div>
-                        <button>Exibir proposta</button>
+                    <div class="balao">
+                        <div class="div-title">{{ nomeFaculdade.nome }} enviou:</div>
+                        <div class="div-content">Proposta para análise</div>
+                        <button class="button-exibir-proposta">Exibir proposta</button>
                     </div>
                 </div>
                 <div v-if="ppc.content === '23' && (isTecnico)">
-                    <div>
-                        <div>{{ nomeFaculdade.nome }} enviou:</div>
-                        <div>Proposta para análise</div>
+                    <div class="balao">
+                        <div class="div-title">{{ nomeFaculdade.nome }} enviou:</div>
+                        <div class="div-content">Proposta para análise</div>
+                        <button class="button-exibir-proposta">Exibir proposta</button>
                     </div>
                 </div>
                 <div v-if="ppc.content === '24' && (isFaculdade)">
-                    <div>
-                        <div>{{ nomeTecnico.nome }} enviou:</div>
-                        <div>Proposta enviada para a aprovação da Camara de Ensino</div>
+                    <div class="balao">
+                        <div class="div-title">{{ nomeTecnico.nome }} enviou:</div>
+                        <div class="div-content">Proposta enviada para a aprovação da Camara de Ensino</div>
                     </div>
                 </div>
                 <div v-if="ppc.content === '24' && (isTecnico)">
-                    <div>
-                        <div>{{ nomeTecnico.nome }} enviou:</div>
-                        <div>Proposta enviada para a aprovação da Camara de Ensino</div>
+                    <div class="balao">
+                        <div  class="div-title">{{ nomeTecnico.nome }} enviou:</div>
+                        <div class="div-content">Proposta enviada para a aprovação da Camara de Ensino</div>
                     </div>
                 </div>
                 <div v-if="ppc.content === '24' && (isCamara)">
-                    <div>
-                        <div>{{ nomeTecnico.nome }} enviou:</div>
-                        <div>Proposta enviada para a aprovação da Camara de Ensino</div>
-                        <button>Exibir proposta</button>
+                    <div  class="balao">
+                        <div class="div-title">{{ nomeTecnico.nome }} enviou:</div>
+                        <div class="div-content">Proposta enviada para a aprovação da Camara de Ensino</div>
+                        <button class="button-exibir-proposta">Exibir proposta</button>
                     </div>
                 </div>
                 <div v-if="ppc.content === '25' && (isTecnico)">
-                    <div>
-                        <div>Camara de Ensino enviou:</div>
-                        <div>Proposta aprovada.</div>
+                    <div  class="balao">
+                        <div class="div-title">Camara de Ensino enviou:</div>
+                        <div class="div-content">Proposta aprovada.</div>
                     </div>
                 </div>
                 <div v-if="ppc.content === '25' && (isFaculdade)">
-                    <div>
-                        <div>{{ nomeTecnico.nome }} enviou:</div>
-                        <div>Proposta aprovada pela Câmara de Ensino</div>
+                    <div  class="balao">
+                        <div class="div-title">{{ nomeTecnico.nome }} enviou:</div>
+                        <div class="div-content" >Proposta aprovada pela Câmara de Ensino</div>
                     </div>
                 </div>
                 <div v-if="ppc.content === '25' && (isCamara)">
-                    <div>
-                        <div>Camara de Ensino enviou:</div>
-                        <div>Proposta aprovada.</div>
+                    <div  class="balao">
+                        <div class="div-title">Camara de Ensino enviou:</div>
+                        <div class="div-content">Proposta aprovada.</div>
                     </div>
                 </div>
                 <div v-if="ppc.content === '26' && (isTecnico)">
-                    <div>
-                        <div>Camara de Ensino enviou:</div>
-                        <div>Proposta reprovada.</div>
+                    <div  class="balao">
+                        <div class="div-title">Camara de Ensino enviou:</div>
+                        <div class="div-content">Proposta reprovada.</div>
                     </div>
                 </div>
                 <div v-if="ppc.content === '26' && (isFaculdade)">
-                    <div>
-                        <div>{{ nomeTecnico.nome }} enviou:</div>
-                        <div>Proposta reprovada pela Câmara de Ensino</div>
+                    <div  class="balao">
+                        <div class="div-title">{{ nomeTecnico.nome }} enviou:</div>
+                        <div class="div-content">Proposta reprovada pela Câmara de Ensino</div>
                     </div>
                 </div>
                 <div v-if="ppc.content === '26' && (isCamara)">
-                    <div>
-                        <div>Camara de Ensino enviou:</div>
-                        <div>Proposta reprovada.</div>
+                    <div  class="balao">
+                        <div class="div-title">Camara de Ensino enviou:</div>
+                        <div class="div-content">Proposta reprovada.</div>
                     </div>
                 </div>
             </div>
             <div v-if="isTecnico">
-                <form @submit.prevent="enviarRespostaTecnico">  
-                    <input v-model="respostaTecnico">
-                    <button type="submit">Enviar</button>
+                <form style="display: flex; gap:20px; justify-content: center; align-items: center;" @submit.prevent="enviarRespostaTecnico">  
+                    <textarea style="width: 700px; height: 100px; padding: 20px; border-radius: 20px;" v-model="respostaTecnico"></textarea>
+                    <button style="width: 120px; font-size: 20px; height: 40px;" type="submit">Enviar</button>
                 </form>
             </div>            
         </div>
         <div style="display: flex; gap: 20px">
-            <button v-if="isFaculdade" @click="router.push(`/home-faculdade/${route.query.faculdade_id}`)">Cancelar</button>
-            <button v-if="isTecnico" @click="router.push(`/home-tecnico/${route.query.tecnico_id}`)">Cancelar</button>
-            <button v-if="isFaculdade" @click="updateCadastro">Editar PPC</button>
-            <button v-if="isTecnico" @click="setRespostaTecnico('24')">Enviar PPC para a Câmara de Ensino</button>
-            <button v-if="isCamara" @click="router.push('/home-camara')">Cancelar</button>
-            <button v-if="isCamara" @click="setRespostaCamara('26')">Reprovar</button>
-            <button v-if="isCamara" @click="setRespostaCamara('25')">Aprovar</button>
+            <button style="width: 220px; font-size: 20px; height: 60px; border-radius: 20px;" v-if="isFaculdade" @click="router.push(`/home-faculdade/${route.query.faculdade_id}`)">Cancelar</button>
+            <button style="width: 220px; font-size: 20px; height: 60px; border-radius: 20px;" v-if="isTecnico" @click="router.push(`/home-tecnico/${route.query.tecnico_id}`)">Cancelar</button>
+            <button style="width: 220px; font-size: 20px; height: 60px; border-radius: 20px;" v-if="isFaculdade" @click="updateCadastro">Editar PPC</button>
+            <button style="width: 220px; font-size: 20px; height: 60px; border-radius: 20px;" v-if="isTecnico" @click="setRespostaTecnico('24')">Enviar PPC para a Câmara de Ensino</button>
+            <button style="width: 220px; font-size: 20px; height: 60px; border-radius: 20px;" v-if="isCamara" @click="router.push('/home-camara')">Cancelar</button>
+            <button style="width: 220px; font-size: 20px; height: 60px; border-radius: 20px;" :disabled="disabledButton" v-if="isCamara && ppc_msgs.length > 0" @click="setRespostaCamara('26')">Reprovar</button>
+            <button style="width: 220px; font-size: 20px; height: 60px; border-radius: 20px;" v-else disabled @click="setRespostaCamara('26')">Reprovar</button>
+            <button style="width: 220px; font-size: 20px; height: 60px; border-radius: 20px;" :disabled="disabledButton" v-if="isCamara && ppc_msgs.length" @click="setRespostaCamara('25')">Aprovar</button>
+            <button style="width: 220px; font-size: 20px; height: 60px; border-radius: 20px;" v-else disabled @click="setRespostaCamara('26')">Aprovar</button>
+
         </div>
     </div>
     
 </template>
 
 <style scoped>
+
     .div-container-baloes{
         display: flex;
         flex-direction: column;
@@ -272,7 +275,7 @@ function updateCadastro() {
         display: flex;
         flex-direction: column;
         gap: 5px;
-        width: 90%;
+        width: 100%;
         background-color: rgb(255, 234, 212);
         border-radius: 20px;
         padding: 10px;
@@ -288,7 +291,11 @@ function updateCadastro() {
     }
 
     .button-exibir-proposta{
-        width: 120px;
+        width: 140px;
         border-radius: 20px;
+    }
+
+    button{
+        width: 100px;
     }
 </style>

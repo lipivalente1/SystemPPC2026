@@ -20,7 +20,7 @@
     }
 </script>
 
-<template>
+<template scoped>
     <div class="div-container">
         <h1>Portal de Acesso ao Sistema de PPC</h1>
         <div class="container-buttons">

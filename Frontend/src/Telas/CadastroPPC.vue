@@ -115,7 +115,6 @@ const enviarRespostaFaculdade = async ( ppc_id : number) => {
                 ppc_id: ppc_id,
                 content: '23'
         })
-                alert('Resposta enviada')
 
         }catch (error) {
             console.error('Erro ao buscar PPC:', error)
