@@ -22,6 +22,8 @@
 
 Dentro da pasta do backend executar: 
 
+*npm install*
+
 *composer install*
 
 *composer run dev*
