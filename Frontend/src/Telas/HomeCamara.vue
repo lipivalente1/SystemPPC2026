@@ -45,7 +45,7 @@
         <h1>{{title1}}</h1>
         <h3>{{ title2 }}</h3>
 
-        <ListCardPPC title="PPC's criados" :ppcs="ppcs" :user_id="user_id"></ListCardPPC>
+        <ListCardPPC title="PPC's recebidos" :ppcs="ppcs" :user_id="user_id"></ListCardPPC>
         
     </div>
 </template>

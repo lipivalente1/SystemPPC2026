@@ -12,6 +12,8 @@
     const ppcs = ref([])
     const user_id = 0 //faculdade
 
+    const nomeFaculdade = ref('')
+
     const getPpcsCriados = async () => {
     try {
         var faculdade_id = -1
@@ -29,8 +31,19 @@
         }
     }
 
+    const getNomeFaculdade = async () => {
+        try{
+            const response = await api.get(`/faculdades/${route.params.id}`)
+            nomeFaculdade.value = response.data.nome
+            console.log(response.data)
+        } catch (error) {
+            console.error('Erro ao buscar processo:', error)
+        }   
+    }
+
     onMounted(() => {
         getPpcsCriados()
+        getNomeFaculdade()
     })
 
     const props = defineProps({
@@ -65,7 +78,7 @@
     <div class="div-container">
         <button class="button-retornar" @click="retornarAoPortalDeAcesso" >Portal de acesso</button>
         <h1>{{title1}}</h1>
-        <h3>{{ title2 }}</h3>
+        <h3>{{ nomeFaculdade }}</h3>
 
         <button @click="novoCadastro">Criar novo PPC</button>
         <ListCardPPC title="PPC's criados" :ppcs="ppcs" :user_id="user_id"></ListCardPPC>

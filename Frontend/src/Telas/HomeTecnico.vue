@@ -9,6 +9,8 @@
     const route = useRoute()
     const ppcs = ref([])
     const user_id = 1 //tecnico
+
+    const nomeTecnico = ref('')
     
     const getPpcsRecebidos = async () => {
     try {
@@ -27,8 +29,19 @@
         }
     }
 
+    const getNomeTecnico = async () => {
+        try{
+            const response = await api.get(`/tecnicos/${route.params.id}`)
+            nomeTecnico.value = response.data.nome
+            console.log(response.data)
+        } catch (error) {
+            console.error('Erro ao buscar processo:', error)
+        }   
+    }
+
     onMounted(() => {
         getPpcsRecebidos()
+        getNomeTecnico()
     })
 
     const props = defineProps({
@@ -50,7 +63,7 @@
         <button class="button-retornar" @click="retornarAoPortalDeAcesso" >Portal de acesso</button>
         
         <h1>{{title1}}</h1>
-        <h3>{{ title2 }}</h3>
+        <h3>{{ nomeTecnico }}</h3>
 
         <ListCardPPC title="PPC's recebidos" :ppcs="ppcs" :user_id="user_id"></ListCardPPC>
         

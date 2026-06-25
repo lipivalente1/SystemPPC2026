@@ -1,5 +1,7 @@
 <script setup lang="ts">
     import { useRouter } from 'vue-router'
+    import api from '@/services/api.ts'
+    import {ref, onMounted} from 'vue'
 
     const router = useRouter()
     
@@ -18,6 +20,34 @@
     function telaCamara() {
         router.push('/home-camara')  
     }
+
+    const salvarFaculdadeNome = async (nome : String) => {
+        try {
+            await api.post('/faculdades', {
+                nome: nome
+        })
+
+        }catch (error) {
+            console.log(error)
+        }
+    }
+
+    const salvarTecNome = async (nome : String) => {
+        try {
+            await api.post('/tecnicos', {
+                nome: nome
+        })
+
+        }catch (error) {
+            console.log(error)
+        }
+    }
+
+    onMounted(() => {
+        salvarFaculdadeNome("Engenharia da Computação")
+        salvarFaculdadeNome("Engenharia de Telecomunicações")
+        salvarTecNome("Filipe Valente da Silva")
+    })
 </script>
 
 <template scoped>
@@ -32,7 +62,7 @@
             <h2>Câmara de Ensino</h2>
             <button @click="telaCamara">Câmara de Ensino</button>
         </div>
-        
+            <img style="width: 200px; margin-top: 40px;" src="../../src/assets/logo.png">
     </div>
 </template>
 
@@ -43,13 +73,13 @@
         justify-content: center;
         align-items: center;
         min-height: 100vh;
-        background-color: orange;
+        background-color: #FFB32F;
     }
 
     .container-buttons{
         width: 50%;
         height: auto;
-        background-color: rgb(255, 183, 49);
+        background-color: rgb(255, 199, 96);
         display: flex;
         gap:10px;
         flex-direction: column;
@@ -62,6 +92,7 @@
 
     h1{
         font-size: 30px;
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     }
 
     h2{
