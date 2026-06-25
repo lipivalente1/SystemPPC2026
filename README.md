@@ -8,7 +8,7 @@
 
 • Composer 2.8.12
 
-#### COMANDO PARA INSTALAR PHP + COMPOSER (EXECUTAR COMO ADMIN):
+#### COMANDO PARA INSTALAR PHP + COMPOSER (EXECUTAR COMO ADMIN) VIA WINDOWS POWERSHELL:
 
 *Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://php.new/install/windows/8.5'))*
 
@@ -28,6 +28,14 @@ Dentro da pasta do backend executar:
 
 *php artisan migrate (inicializar banco de dados)*
 
+## BANCO DE DADOS
+
+Após instalar o MySQL Server, executar:
+
+*mysql -u root -p*
+
+*create database systemppc;*
+
 ## CONFIGURAÇÃO DO BANCO DE DADOS
 
 DB_CONNECTION=mysql
@@ -40,7 +48,7 @@ DB_DATABASE=systemppc
 
 DB_USERNAME=root
 
-DB_PASSWORD=root
+DB_PASSWORD=
 
 
 # Tela inicial
