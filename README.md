@@ -38,7 +38,7 @@ Após instalar o MySQL Server, executar:
 
 *create database systemppc;*
 
-## CONFIGURAÇÃO DO BANCO DE DADOS
+## CONFIGURAÇÃO DO BANCO DE DADOS NO .ENV
 
 DB_CONNECTION=mysql
 
